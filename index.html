@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Benchmark Bases de Données Vectorielles 2025 - Rapport Interactif</title>
+    <meta name="description" content="Benchmark interactif des bases de données vectorielles 2025. Comparez Pinecone, Qdrant, Weaviate, Milvus, pgvector et plus pour vos architectures RAG et IA.">
+    <meta property="og:title" content="Vector DB Benchmark 2025 - Rapport Interactif">
+    <meta property="og:description" content="Comparez 10 solutions de bases de données vectorielles : performance, coût, fonctionnalités pour architectures RAG et IA.">
+    <meta property="og:type" content="website">
+    <link rel="canonical" href="https://benoist-de-montgrand.fr/">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline'; connect-src 'self';">
+    <link rel="stylesheet" href="dist/output.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7" crossorigin="anonymous" defer></script>
+    <style>
+        /* Chart Container Styling */
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 350px;
+            max-height: 400px;
+        }
+
+        @media (max-width: 640px) {
+            .chart-container {
+                height: 250px;
+            }
+        }
+
+        /* Custom Scrollbar for tables */
+        .custom-scrollbar::-webkit-scrollbar {
+            height: 8px;
+            width: 8px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f5f5f4;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #d6d3d1;
+            border-radius: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #a8a29e;
+        }
+
+        /* Utility for transitions */
+        .fade-in {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .active-tab {
+            border-bottom: 2px solid #ea580c;
+            color: #ea580c;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body class="bg-stone-50 text-stone-800 font-sans antialiased selection:bg-orange-200">
+
+    <!-- Skip link for accessibility -->
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:bg-white focus:px-4 focus:py-2 focus:rounded focus:shadow-lg focus:z-[100] focus:text-orange-600">Aller au contenu principal</a>
+
+    <!-- Header Section -->
+    <header class="bg-white border-b border-stone-200 shadow-sm sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <h1 class="text-2xl font-bold text-stone-900 tracking-tight">Vector DB Benchmark <span class="text-orange-600">2025</span></h1>
+                    <p class="text-sm text-stone-500">Guide de décision pour architectures RAG & IA</p>
+                </div>
+                <nav role="tablist" aria-label="Sections du rapport" class="flex space-x-6 text-sm font-medium">
+                    <button role="tab" aria-selected="true" aria-controls="view-overview" id="tab-overview" class="active-tab pb-1 hover:text-orange-600 transition-colors">Vue d'ensemble</button>
+                    <button role="tab" aria-selected="false" aria-controls="view-performance" id="tab-performance" class="pb-1 hover:text-orange-600 transition-colors">Performance</button>
+                    <button role="tab" aria-selected="false" aria-controls="view-pricing" id="tab-pricing" class="pb-1 hover:text-orange-600 transition-colors">Calculateur TCO</button>
+                    <button role="tab" aria-selected="false" aria-controls="view-advisor" id="tab-advisor" class="pb-1 hover:text-orange-600 transition-colors">Conseiller IA</button>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main id="main-content" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 min-h-screen">
+
+        <!-- VIEW: OVERVIEW / LEADERBOARD -->
+        <div id="view-overview" role="tabpanel" aria-labelledby="tab-overview" class="fade-in block">
+            <div class="mb-8">
+                <h2 class="text-3xl font-bold text-stone-800 mb-4">Panorama du Marché 2025</h2>
+                <p class="text-stone-600 max-w-3xl leading-relaxed">
+                    Ce module interactif synthétise l'audit de 25+ solutions de bases de données vectorielles.
+                    Le marché 2025 se caractérise par une maturité des solutions "Native" (haute performance) et une adoption massive des extensions vectorielles pour les bases généralistes (facilité d'intégration).
+                    Utilisez le tableau ci-dessous pour filtrer et comparer les solutions du <strong>Top 10</strong>.
+                </p>
+            </div>
+
+            <!-- Global Stats Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+                <div class="bg-white p-4 rounded-lg shadow-sm border border-stone-200">
+                    <div class="text-stone-500 text-xs uppercase tracking-wider font-semibold">Solutions Auditées</div>
+                    <div class="text-3xl font-bold text-stone-800 mt-1">10</div>
+                    <div class="text-emerald-600 text-xs mt-1">Top 10 sélectionnées</div>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-sm border border-stone-200">
+                    <div class="text-stone-500 text-xs uppercase tracking-wider font-semibold">Standard Latence p99</div>
+                    <div class="text-3xl font-bold text-stone-800 mt-1">12ms</div>
+                    <div class="text-stone-400 text-xs mt-1">Moyenne Top 10 (1M vecteurs)</div>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-sm border border-stone-200">
+                    <div class="text-stone-500 text-xs uppercase tracking-wider font-semibold">Tendance 2025</div>
+                    <div class="text-3xl font-bold text-stone-800 mt-1">Hybride</div>
+                    <div class="text-orange-600 text-xs mt-1">Vecteur + Mots-clés (BM25)</div>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-sm border border-stone-200">
+                    <div class="text-stone-500 text-xs uppercase tracking-wider font-semibold">Coût Moyen/Mois</div>
+                    <div class="text-3xl font-bold text-stone-800 mt-1">$85</div>
+                    <div class="text-stone-400 text-xs mt-1">Pour 1M vecteurs (managé)</div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-sm border border-stone-200 overflow-hidden">
+                <div class="p-4 border-b border-stone-100 flex justify-between items-center bg-stone-50">
+                    <h3 class="font-bold text-lg">Classement Top 10 & Scores</h3>
+                    <div class="flex space-x-2">
+                        <select id="categoryFilter" aria-label="Filtrer par catégorie" class="text-sm border-stone-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500 p-1">
+                            <option value="all">Toutes Catégories</option>
+                            <option value="Dedicated">Dédiée (Native)</option>
+                            <option value="Extension">Extension SGBD</option>
+                            <option value="Cloud">Cloud Native</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="overflow-x-auto custom-scrollbar">
+                    <table class="min-w-full divide-y divide-stone-200">
+                        <thead class="bg-stone-100">
+                            <tr>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-stone-500 uppercase tracking-wider cursor-pointer hover:text-orange-600" id="th-name">Solution ↕</th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-stone-500 uppercase tracking-wider cursor-pointer hover:text-orange-600" id="th-type">Type ↕</th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-stone-500 uppercase tracking-wider cursor-pointer hover:text-orange-600" id="th-perf">Perf. Score (5) ↕</th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-stone-500 uppercase tracking-wider cursor-pointer hover:text-orange-600" id="th-features">Features (5) ↕</th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-stone-500 uppercase tracking-wider cursor-pointer hover:text-orange-600" id="th-cost">Coût Eff. (5) ↕</th>
+                                <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-stone-500 uppercase tracking-wider">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="leaderboard-body" class="bg-white divide-y divide-stone-200">
+                            <!-- Rows generated by JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Details Panel (Hidden by default) -->
+            <div id="details-panel" class="hidden mt-6 bg-stone-900 text-stone-50 rounded-xl p-6 shadow-lg fade-in">
+                <div class="flex justify-between items-start mb-4">
+                    <div>
+                        <h3 id="detail-title" class="text-2xl font-bold text-white">Nom Solution</h3>
+                        <span id="detail-type" class="text-xs font-semibold bg-stone-700 px-2 py-1 rounded text-stone-300">Type</span>
+                    </div>
+                    <button id="btn-close-details" aria-label="Fermer le panneau de détails" class="text-stone-400 hover:text-white text-xl font-bold">&times;</button>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div>
+                        <p id="detail-desc" class="text-stone-300 italic mb-4">Description...</p>
+                        <h4 class="text-orange-500 font-bold uppercase text-xs mb-2">Points Forts</h4>
+                        <ul id="detail-pros" class="list-disc list-inside text-sm text-stone-300 space-y-1"></ul>
+                        <h4 class="text-red-400 font-bold uppercase text-xs mt-4 mb-2">Vigilance</h4>
+                        <ul id="detail-cons" class="list-disc list-inside text-sm text-stone-300 space-y-1"></ul>
+                    </div>
+                    <div>
+                        <h4 class="text-stone-400 font-bold uppercase text-xs mb-2">Profil Radar</h4>
+                        <div class="chart-container" style="height: 250px;">
+                            <canvas id="detailRadarChart" aria-label="Graphique radar des scores de la solution"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- VIEW: PERFORMANCE -->
+        <div id="view-performance" role="tabpanel" aria-labelledby="tab-performance" class="hidden fade-in">
+            <div class="mb-8">
+                <h2 class="text-3xl font-bold text-stone-800 mb-4">Benchmarks de Performance</h2>
+                <p class="text-stone-600 max-w-3xl leading-relaxed">
+                    Les données ci-dessous proviennent de tests standardisés sur des vecteurs de dimension 1536 (OpenAI embeddings).
+                    La latence p99 mesure le temps maximum pour 99% des requêtes, critique pour l'UX utilisateur.
+                    Le QPS (Queries Per Second) mesure le débit maximal avant dégradation.
+                </p>
+            </div>
+
+            <div class="flex justify-center space-x-4 mb-6">
+                <button class="px-4 py-2 rounded-full bg-stone-200 hover:bg-orange-100 text-stone-700 font-medium text-sm focus:outline-none focus:ring-2 focus:ring-orange-500 dataset-btn" id="btn-1M">Dataset: 1M Vecteurs</button>
+                <button class="px-4 py-2 rounded-full bg-white border border-stone-200 hover:bg-orange-100 text-stone-700 font-medium text-sm focus:outline-none focus:ring-2 focus:ring-orange-500 dataset-btn" id="btn-10M">Dataset: 10M Vecteurs</button>
+                <button class="px-4 py-2 rounded-full bg-white border border-stone-200 hover:bg-orange-100 text-stone-700 font-medium text-sm focus:outline-none focus:ring-2 focus:ring-orange-500 dataset-btn" id="btn-100M">Dataset: 100M+ Vecteurs</button>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-stone-200">
+                    <h3 class="text-lg font-bold text-stone-800 mb-2">Latence de Recherche (p99)</h3>
+                    <p class="text-xs text-stone-500 mb-4">Plus bas est mieux (millisecondes)</p>
+                    <div class="chart-container">
+                        <canvas id="latencyChart" aria-label="Graphique de latence de recherche par solution"></canvas>
+                    </div>
+                    <div class="mt-4 p-3 bg-stone-50 rounded text-xs text-stone-600 border border-stone-100">
+                        <strong>Analyse :</strong> Les bases natives comme Qdrant et Pinecone maintiennent une latence sous les 20ms même à forte charge. Les extensions (pgvector) voient leur latence augmenter significativement passés les 10M vecteurs sans indexation DiskANN.
+                    </div>
+                </div>
+
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-stone-200">
+                    <h3 class="text-lg font-bold text-stone-800 mb-2">Débit (QPS) Max</h3>
+                    <p class="text-xs text-stone-500 mb-4">Plus haut est mieux (Requêtes/sec)</p>
+                    <div class="chart-container">
+                        <canvas id="qpsChart" aria-label="Graphique du débit maximal par solution"></canvas>
+                    </div>
+                    <div class="mt-4 p-3 bg-stone-50 rounded text-xs text-stone-600 border border-stone-100">
+                        <strong>Analyse :</strong> Milvus et Weaviate excellent dans la scalabilité horizontale, permettant des QPS très élevés pour les cas d'usage intensifs (e-commerce, recommandation temps réel).
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- VIEW: PRICING -->
+        <div id="view-pricing" role="tabpanel" aria-labelledby="tab-pricing" class="hidden fade-in">
+            <div class="mb-8">
+                <h2 class="text-3xl font-bold text-stone-800 mb-4">Simulateur de TCO (Total Cost of Ownership)</h2>
+                <p class="text-stone-600 max-w-3xl leading-relaxed">
+                    Le coût est souvent le facteur décisif. Les modèles varient : paiement au pod (Pinecone), à la consommation (Serverless), ou coût d'infrastructure pure (Self-hosted).
+                    Ce simulateur estime le coût mensuel pour une infrastructure de production standard (HA).
+                </p>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-sm border border-stone-200 p-6 md:p-8">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+                    <div class="space-y-8">
+                        <div>
+                            <label for="vectorRange" class="block text-sm font-medium text-stone-700 mb-2">Nombre de Vecteurs</label>
+                            <input type="range" min="100000" max="50000000" step="100000" value="1000000" class="w-full h-2 bg-stone-200 rounded-lg appearance-none cursor-pointer accent-orange-600" id="vectorRange">
+                            <div class="flex justify-between text-xs text-stone-500 mt-2">
+                                <span>100k</span>
+                                <span id="vectorDisplay" class="font-bold text-orange-600 text-lg">1 Million</span>
+                                <span>50M</span>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label for="dimensionSelect" class="block text-sm font-medium text-stone-700 mb-2">Dimension des Vecteurs</label>
+                            <select id="dimensionSelect" class="w-full p-2 border border-stone-300 rounded bg-white focus:ring-orange-500 focus:border-orange-500">
+                                <option value="768">768 (Bert/HuggingFace)</option>
+                                <option value="1536" selected>1536 (OpenAI Small)</option>
+                                <option value="3072">3072 (OpenAI Large)</option>
+                            </select>
+                        </div>
+
+                        <div class="bg-orange-50 border border-orange-100 p-4 rounded-lg">
+                            <h4 class="font-bold text-orange-800 mb-2 text-sm">Hypothèses du modèle</h4>
+                            <ul class="text-xs text-orange-700 space-y-1 list-disc list-inside">
+                                <li>Infrastructure Haute Disponibilité (3 replicas min).</li>
+                                <li>Inclut stockage + compute recherche.</li>
+                                <li>Exclut coûts de génération d'embeddings.</li>
+                                <li>Basé sur prix publics US East (Jan 2025).</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h3 class="text-lg font-bold text-stone-800 mb-4">Estimation Mensuelle ($)</h3>
+                        <div class="space-y-4" id="pricing-results">
+                            <!-- Populated by JS -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- VIEW: ADVISOR -->
+        <div id="view-advisor" role="tabpanel" aria-labelledby="tab-advisor" class="hidden fade-in">
+            <div class="mb-8">
+                <h2 class="text-3xl font-bold text-stone-800 mb-4">Conseiller Stratégique IA</h2>
+                <p class="text-stone-600 max-w-3xl leading-relaxed">
+                    Répondez à 3 questions clés pour identifier la solution la plus adaptée à votre contexte d'entreprise.
+                    L'algorithme pondère vos contraintes techniques et organisationnelles.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="md:col-span-1 bg-white p-6 rounded-xl shadow-sm border border-stone-200 space-y-6">
+                    <div>
+                        <label for="adv-profile" class="block text-sm font-bold text-stone-700 mb-2">1. Profil Organisation</label>
+                        <select id="adv-profile" class="w-full p-2 border border-stone-300 rounded focus:ring-orange-500">
+                            <option value="startup">Startup (Vitesse & Budget)</option>
+                            <option value="scaleup">Scale-up (Croissance & Perf)</option>
+                            <option value="enterprise">Grand Groupe (Sécurité & On-prem)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="adv-stack" class="block text-sm font-bold text-stone-700 mb-2">2. Stack Existante</label>
+                        <select id="adv-stack" class="w-full p-2 border border-stone-300 rounded focus:ring-orange-500">
+                            <option value="none">Cloud Native / Moderne</option>
+                            <option value="postgres">Forte utilisation PostgreSQL</option>
+                            <option value="elastic">Stack ELK / Recherche</option>
+                            <option value="mongo">MongoDB / NoSQL</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="adv-volume" class="block text-sm font-bold text-stone-700 mb-2">3. Volume de Données</label>
+                        <select id="adv-volume" class="w-full p-2 border border-stone-300 rounded focus:ring-orange-500">
+                            <option value="small">&lt; 1M Vecteurs</option>
+                            <option value="medium">1M - 50M Vecteurs</option>
+                            <option value="huge">50M+ Vecteurs (Big Data)</option>
+                        </select>
+                    </div>
+                    <button id="btn-recommendation" class="w-full bg-stone-900 text-white py-3 rounded-lg font-bold hover:bg-orange-600 transition-colors shadow-lg">Générer la Recommandation</button>
+                </div>
+
+                <div class="md:col-span-2">
+                    <div id="recommendation-output" class="h-full flex items-center justify-center bg-stone-100 rounded-xl border-2 border-dashed border-stone-300 p-8 text-center text-stone-400">
+                        <span>Sélectionnez vos critères pour voir le résultat...</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <footer class="bg-stone-900 text-stone-400 py-8 mt-12">
+        <div class="max-w-7xl mx-auto px-4 text-center text-sm">
+            <p>&copy; 2025 AI Architecture Consultants. Basé sur des données de benchmark synthétiques pour démonstration.</p>
+            <p class="mt-2 text-stone-600">Données purement illustratives générées par IA.</p>
+        </div>
+    </footer>
+
+    <script>
+        // --- UTILITIES ---
+        function escapeHTML(str) {
+            const div = document.createElement('div');
+            div.textContent = String(str);
+            return div.innerHTML;
+        }
+
+        function debounce(fn, delay = 50) {
+            let timer;
+            return (...args) => { clearTimeout(timer); timer = setTimeout(() => fn(...args), delay); };
+        }
+
+        // --- DATA STORE ---
+        let dbData = [];
+        let charts = {};
+
+        // --- GLOBAL STATE ---
+        let currentTab = 'overview';
+        let currentSortKey = 'perf';
+        let sortAscending = false;
+
+        // --- INIT ---
+        window.addEventListener('DOMContentLoaded', () => {
+            // Bind all event listeners (no inline handlers)
+            // Tabs
+            document.querySelectorAll('[role="tab"]').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const tabId = btn.id.replace('tab-', '');
+                    switchTab(tabId);
+                });
+            });
+
+            // Table sort headers
+            document.getElementById('th-name').addEventListener('click', () => sortTable('name'));
+            document.getElementById('th-type').addEventListener('click', () => sortTable('type'));
+            document.getElementById('th-perf').addEventListener('click', () => sortTable('perf'));
+            document.getElementById('th-features').addEventListener('click', () => sortTable('features'));
+            document.getElementById('th-cost').addEventListener('click', () => sortTable('cost'));
+
+            // Category filter
+            document.getElementById('categoryFilter').addEventListener('change', () => renderTable());
+
+            // Details close
+            document.getElementById('btn-close-details').addEventListener('click', closeDetails);
+
+            // Performance dataset buttons
+            document.getElementById('btn-1M').addEventListener('click', () => updatePerfCharts('1M'));
+            document.getElementById('btn-10M').addEventListener('click', () => updatePerfCharts('10M'));
+            document.getElementById('btn-100M').addEventListener('click', () => updatePerfCharts('100M'));
+
+            // Pricing controls (with debounce on range)
+            const debouncedPricing = debounce(updatePricing, 50);
+            document.getElementById('vectorRange').addEventListener('input', debouncedPricing);
+            document.getElementById('dimensionSelect').addEventListener('change', updatePricing);
+
+            // Advisor
+            document.getElementById('btn-recommendation').addEventListener('click', getRecommendation);
+
+            // Fetch data
+            fetch('data.json')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error("Le fichier data.json est introuvable ou illisible.");
+                    }
+                    return response.json();
+                })
+                .then(donnees => {
+                    dbData = donnees;
+                    renderTable();
+                    initPerformanceCharts();
+                })
+                .catch(erreur => {
+                    console.error("Erreur critique :", erreur);
+                    const tbody = document.getElementById('leaderboard-body');
+                    const tr = document.createElement('tr');
+                    const td = document.createElement('td');
+                    td.colSpan = 6;
+                    td.className = 'text-center text-red-600 font-bold p-8 bg-red-50';
+                    td.textContent = 'Impossible de charger les données du benchmark.';
+                    tr.appendChild(td);
+                    tbody.innerHTML = '';
+                    tbody.appendChild(tr);
+                });
+        });
+
+        // --- NAVIGATION ---
+        function switchTab(tabId) {
+            document.querySelectorAll('[role="tab"]').forEach(btn => {
+                btn.classList.remove('active-tab');
+                btn.classList.add('text-stone-500');
+                btn.setAttribute('aria-selected', 'false');
+            });
+            const activeTab = document.getElementById(`tab-${tabId}`);
+            activeTab.classList.add('active-tab');
+            activeTab.classList.remove('text-stone-500');
+            activeTab.setAttribute('aria-selected', 'true');
+
+            document.querySelectorAll('[role="tabpanel"]').forEach(view => {
+                view.classList.add('hidden');
+            });
+
+            const view = document.getElementById(`view-${tabId}`);
+            view.classList.remove('hidden');
+
+            if (tabId === 'performance') {
+                updatePerfCharts('1M');
+            }
+            if (tabId === 'pricing') {
+                updatePricing();
+            }
+        }
+
+        // --- LEADERBOARD LOGIC ---
+        function renderTable(sortKey) {
+            if (!dbData.length) return;
+
+            if (sortKey !== undefined) {
+                if (sortKey === currentSortKey) {
+                    sortAscending = !sortAscending;
+                } else {
+                    currentSortKey = sortKey;
+                    sortAscending = typeof dbData[0][sortKey] === 'string';
+                }
+            }
+
+            const filter = document.getElementById('categoryFilter').value;
+            let data = dbData.filter(d => filter === 'all' || d.type.includes(filter));
+
+            data.sort((a, b) => {
+                let result;
+                if (typeof a[currentSortKey] === 'string') {
+                    result = a[currentSortKey].localeCompare(b[currentSortKey]);
+                } else {
+                    result = b[currentSortKey] - a[currentSortKey];
+                }
+                return sortAscending ? -result : result;
+            });
+
+            const tbody = document.getElementById('leaderboard-body');
+            const fragment = document.createDocumentFragment();
+
+            data.forEach(db => {
+                const row = document.createElement('tr');
+                row.className = 'hover:bg-stone-50 transition-colors cursor-pointer';
+                row.addEventListener('click', () => showDetails(db.id));
+
+                const typeClass = db.type.includes('Dedicated') ? 'bg-orange-100 text-orange-800' :
+                                  db.type.includes('Extension') ? 'bg-blue-100 text-blue-800' :
+                                  'bg-purple-100 text-purple-800';
+
+                row.innerHTML = `
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="flex items-center">
+                            <div class="h-8 w-8 rounded-full bg-stone-200 flex items-center justify-center font-bold text-stone-600 mr-3 text-xs">
+                                ${escapeHTML(db.name.substring(0,2).toUpperCase())}
+                            </div>
+                            <div class="text-sm font-medium text-stone-900">${escapeHTML(db.name)}</div>
+                        </div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${typeClass}">
+                            ${escapeHTML(db.type)}
+                        </span>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-stone-700 font-bold">${escapeHTML(db.perf)}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-stone-700">${escapeHTML(db.features)}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-stone-700">${escapeHTML(db.cost)}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-center text-sm font-medium">
+                        <button class="text-orange-600 hover:text-orange-900">Analyser</button>
+                    </td>
+                `;
+                fragment.appendChild(row);
+            });
+
+            tbody.innerHTML = '';
+            tbody.appendChild(fragment);
+        }
+
+        function sortTable(key) {
+            renderTable(key);
+        }
+
+        function showDetails(id) {
+            const db = dbData.find(d => d.id === id);
+            if (!db) return;
+
+            document.getElementById('detail-title').textContent = db.name;
+            document.getElementById('detail-type').textContent = db.type;
+            document.getElementById('detail-desc').textContent = db.desc;
+
+            const prosList = document.getElementById('detail-pros');
+            prosList.innerHTML = '';
+            db.pros.forEach(p => {
+                const li = document.createElement('li');
+                li.textContent = p;
+                prosList.appendChild(li);
+            });
+
+            const consList = document.getElementById('detail-cons');
+            consList.innerHTML = '';
+            db.cons.forEach(c => {
+                const li = document.createElement('li');
+                li.textContent = c;
+                consList.appendChild(li);
+            });
+
+            // Radar Chart
+            const ctx = document.getElementById('detailRadarChart').getContext('2d');
+            if (charts.radar) charts.radar.destroy();
+
+            charts.radar = new Chart(ctx, {
+                type: 'radar',
+                data: {
+                    labels: ['Performance', 'Fonctionnalités', 'Coût-Eff.', 'Enterprise', 'Écosystème'],
+                    datasets: [{
+                        label: db.name,
+                        data: [db.perf, db.features, db.cost, db.enterprise, db.eco],
+                        fill: true,
+                        backgroundColor: 'rgba(234, 88, 12, 0.2)',
+                        borderColor: 'rgb(234, 88, 12)',
+                        pointBackgroundColor: 'rgb(234, 88, 12)',
+                        pointBorderColor: '#fff',
+                        pointHoverBackgroundColor: '#fff',
+                        pointHoverBorderColor: 'rgb(234, 88, 12)'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        r: {
+                            angleLines: { color: '#e5e7eb' },
+                            grid: { color: '#e5e7eb' },
+                            suggestedMin: 0,
+                            suggestedMax: 5,
+                            ticks: { display: false }
+                        }
+                    },
+                    plugins: {
+                        legend: { display: false }
+                    }
+                }
+            });
+
+            document.getElementById('details-panel').classList.remove('hidden');
+            document.getElementById('details-panel').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function closeDetails() {
+            if (charts.radar) charts.radar.destroy();
+            document.getElementById('details-panel').classList.add('hidden');
+        }
+
+        // --- PERFORMANCE CHARTS ---
+        function initPerformanceCharts() {
+            if (!dbData.length) return;
+
+            const commonOptions = {
+                responsive: true,
+                maintainAspectRatio: false,
+                indexAxis: 'y',
+                scales: {
+                    x: { beginAtZero: true, grid: { color: '#f3f4f6' } },
+                    y: { grid: { display: false } }
+                },
+                plugins: {
+                    legend: { display: false }
+                }
+            };
+
+            charts.latency = new Chart(document.getElementById('latencyChart'), {
+                type: 'bar',
+                data: { labels: [], datasets: [] },
+                options: { ...commonOptions, plugins: { title: { display: false } } }
+            });
+
+            charts.qps = new Chart(document.getElementById('qpsChart'), {
+                type: 'bar',
+                data: { labels: [], datasets: [] },
+                options: { ...commonOptions, plugins: { title: { display: false } } }
+            });
+        }
+
+        function updatePerfCharts(datasetSize) {
+            if (!dbData.length) return;
+
+            document.querySelectorAll('.dataset-btn').forEach(b => {
+                b.classList.remove('bg-stone-200', 'border-transparent');
+                b.classList.add('bg-white', 'border-stone-200');
+            });
+            document.getElementById(`btn-${datasetSize}`).classList.remove('bg-white', 'border-stone-200');
+            document.getElementById(`btn-${datasetSize}`).classList.add('bg-stone-200', 'border-transparent');
+
+            const topPerf = [...dbData].sort((a, b) => a.latency[datasetSize] - b.latency[datasetSize]).slice(0, 6);
+
+            const labels = topPerf.map(d => d.name);
+            const latencyData = topPerf.map(d => d.latency[datasetSize]);
+
+            charts.latency.data = {
+                labels: labels,
+                datasets: [{
+                    label: 'Latence p99 (ms)',
+                    data: latencyData,
+                    backgroundColor: '#f97316',
+                    borderRadius: 4
+                }]
+            };
+            charts.latency.update();
+
+            const topQPS = [...dbData].sort((a, b) => b.qps[datasetSize] - a.qps[datasetSize]).slice(0, 6);
+
+            charts.qps.data = {
+                labels: topQPS.map(d => d.name),
+                datasets: [{
+                    label: 'Max QPS',
+                    data: topQPS.map(d => d.qps[datasetSize]),
+                    backgroundColor: '#059669',
+                    borderRadius: 4
+                }]
+            };
+            charts.qps.update();
+        }
+
+        // --- PRICING LOGIC ---
+        function updatePricing() {
+            if (!dbData.length) return;
+
+            const vectorCount = parseInt(document.getElementById('vectorRange').value);
+            const dimension = parseInt(document.getElementById('dimensionSelect').value);
+
+            let display = vectorCount >= 1000000 ? (vectorCount/1000000).toFixed(1) + ' Million' : (vectorCount/1000).toFixed(0) + 'k';
+            document.getElementById('vectorDisplay').textContent = display;
+
+            const storageFactor = (dimension / 1536);
+            const scaleFactor = vectorCount / 1000000;
+
+            const resultsContainer = document.getElementById('pricing-results');
+            const fragment = document.createDocumentFragment();
+
+            const estimates = dbData.map(db => {
+                let cost = 0;
+                if (db.type.includes('Extension') || db.id === 'lancedb') {
+                    cost = db.baseCost + (10 * scaleFactor * storageFactor);
+                } else if (db.id === 'pinecone') {
+                    cost = db.baseCost + (80 * scaleFactor * storageFactor);
+                } else {
+                    cost = db.baseCost + (50 * scaleFactor * storageFactor);
+                }
+                return { name: db.name, cost: Math.round(cost), type: db.type };
+            }).sort((a, b) => a.cost - b.cost);
+
+            estimates.slice(0, 6).forEach((est, index) => {
+                const width = Math.min(100, (est.cost / estimates[estimates.length-1].cost) * 100 + 10);
+                const div = document.createElement('div');
+                div.className = 'flex items-center text-sm';
+                div.innerHTML = `
+                    <div class="w-24 font-medium text-stone-700 truncate">${escapeHTML(est.name)}</div>
+                    <div class="flex-1 mx-3">
+                        <div class="h-2 bg-stone-100 rounded-full overflow-hidden">
+                            <div class="h-full ${index === 0 ? 'bg-emerald-500' : 'bg-stone-400'}" style="width: ${width}%"></div>
+                        </div>
+                    </div>
+                    <div class="w-16 text-right font-bold text-stone-800">$${escapeHTML(est.cost)}</div>
+                `;
+                fragment.appendChild(div);
+            });
+
+            resultsContainer.innerHTML = '';
+            resultsContainer.appendChild(fragment);
+        }
+
+        // --- ADVISOR LOGIC ---
+        function getRecommendation() {
+            if (!dbData.length) return;
+
+            const profile = document.getElementById('adv-profile').value;
+            const stack = document.getElementById('adv-stack').value;
+            const volume = document.getElementById('adv-volume').value;
+
+            let recommendation = null;
+            let reason = "";
+
+            if (stack === 'postgres' && volume !== 'huge') {
+                recommendation = dbData.find(d => d.id === 'pgvector');
+                reason = "Vous avez déjà Postgres et votre volume reste gérable (<50M). Pgvector simplifie votre architecture drastiquement en éliminant la synchro de données.";
+            } else if (stack === 'elastic') {
+                recommendation = dbData.find(d => d.id === 'elasticsearch');
+                reason = "Votre expertise ELK existante rend Elasticsearch évident. Leurs capacités vectorielles sont désormais matures pour le RAG hybride.";
+            } else if (volume === 'huge') {
+                recommendation = dbData.find(d => d.id === 'milvus');
+                reason = "Pour le Big Data (50M+ vecteurs), Milvus offre la meilleure architecture distribuée et économie d'échelle.";
+            } else if (profile === 'startup') {
+                if (stack === 'none') {
+                    recommendation = dbData.find(d => d.id === 'qdrant');
+                    reason = "Qdrant offre le meilleur rapport performance/coût. Idéal pour scaler sans exploser la facture Cloud.";
+                } else {
+                    recommendation = dbData.find(d => d.id === 'chroma');
+                    reason = "Chroma est parfait pour démarrer vite (Time-to-market) avec une excellente expérience développeur.";
+                }
+            } else if (profile === 'enterprise') {
+                if (stack === 'none') {
+                    recommendation = dbData.find(d => d.id === 'weaviate');
+                    reason = "Weaviate combine robustesse enterprise, modularité et recherche hybride de pointe pour les cas d'usage complexes.";
+                }
+            } else {
+                recommendation = dbData.find(d => d.id === 'pinecone');
+                reason = "Le choix standard pour la performance sans gestion d'infra. Idéal si le budget le permet et que vous voulez du 'clé en main'.";
+            }
+
+            if (!recommendation) recommendation = dbData.find(d => d.id === 'pinecone');
+            if (!recommendation) return;
+
+            const output = document.getElementById('recommendation-output');
+            output.innerHTML = `
+                <div class="text-left w-full">
+                    <div class="text-xs font-bold text-stone-400 uppercase tracking-widest mb-2">Recommandation Optimale</div>
+                    <div class="flex items-center mb-4">
+                        <h3 class="text-3xl font-bold text-orange-600 mr-3">${escapeHTML(recommendation.name)}</h3>
+                        <span class="bg-stone-200 text-stone-600 px-2 py-1 rounded text-xs font-bold">${escapeHTML(recommendation.type)}</span>
+                    </div>
+                    <p class="text-stone-700 text-lg mb-6 border-l-4 border-orange-500 pl-4 py-1 italic bg-orange-50 rounded-r">
+                        "${escapeHTML(reason)}"
+                    </p>
+                    <div class="grid grid-cols-3 gap-4 text-center">
+                        <div class="bg-white p-2 rounded border border-stone-200">
+                            <div class="text-xs text-stone-500">Perf Score</div>
+                            <div class="font-bold text-stone-800">${escapeHTML(recommendation.perf)}/5</div>
+                        </div>
+                        <div class="bg-white p-2 rounded border border-stone-200">
+                            <div class="text-xs text-stone-500">Coût</div>
+                            <div class="font-bold text-stone-800">${escapeHTML(recommendation.cost)}/5</div>
+                        </div>
+                        <div class="bg-white p-2 rounded border border-stone-200">
+                            <div class="text-xs text-stone-500">Complexité</div>
+                            <div class="font-bold text-stone-800">${recommendation.id === 'pinecone' || recommendation.id === 'chroma' ? 'Faible' : 'Moyenne'}</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+    </script>
+</body>
+</html>
